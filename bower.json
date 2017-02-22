@@ -34,10 +34,17 @@
     "px-context-browser": "^1.4.5",
     "px-deck-selector": "^1.5.5",
     "px-sample-cards": "^0.7.1",
-    "px-theme": "^2.0.1",
+    "px-theme": "PredixDev/px-theme#^2.0.4",
     "px-vis-timeseries": "^0.6.2",
     "px-vis-xy-chart": "^0.3.0",
-    "px-view-header": "^0.2.0"
+    "px-view-header": "^0.2.0",
+    "paper-toolbar": "PolymerElements/paper-toolbar#^1.1.7",
+    "paper-card": "PolymerElements/paper-card#^1.1.4",
+    "paper-datatable": "^0.9.8",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
+    "paper-tabs": "PolymerElements/paper-tabs#^1.8.0",
+    "px-kpi": "PredixDev/px-kpi#^0.2.5",
+    "google-map": "GoogleWebComponents/google-map#^1.2.0"
   },
   "devDependencies": {
     "px-forms-design": "^1.1.1",
