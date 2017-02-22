@@ -24,10 +24,10 @@
 
     <header role="banner" class="flex flex--middle">
       <div class="viewport flex">
-        <h3 class="flex__item app-title"><ge-svg-logo class="u-mr--"></ge-svg-logo> Seed Application</h3>
+        <h3 class="flex__item app-title"><ge-svg-logo class="u-mr--"></ge-svg-logo>Vehicle Diagnostics</h3>
         <div class="flex__item">
           <div class="flex" style="text-align:right;">
-            <h3 class="flex__item weight--normal logo">Powered by <predix-logo style="display:inline-block; width: 82px;" class="flex__item"></predix-logo></h3>
+            <h3 class="flex__item weight--normal logo"> <predix-logo style="display:inline-block; width: 82px;" class="flex__item"></predix-logo></h3>
           </div>
         </div>
       </div>
@@ -36,11 +36,12 @@
     <div class="viewport">
 
       <div class="content-wrapper">
-        <px-app-nav
+      <!-- removed navigation bar from the view -->
+        <!-- <px-app-nav
           class="navbar"
           nav-items="[[navItems]]"
           path-prefix="[[pathPrefix]]">
-        </px-app-nav>
+        </px-app-nav> -->
 
         <main class="u-pt-- u-pr-- u-pl--" role="main">
 
@@ -50,6 +51,18 @@
             route="{{_route}}"
             use-hash-as-path>
           </app-location>
+
+          <!-- /vehicles route and view -->
+          <app-route
+            route="[[_route]]"
+            pattern="/vehicles"
+            active="{{_vehiclesActive}}">
+          </app-route>
+
+          <px-view
+            active="[[_vehiclesActive]]"
+            element-href="/elements/views/vehicles-view.html">
+          </px-view>
 
           <!-- /dashboards route and view -->
           <app-route
@@ -121,7 +134,7 @@
           value: function() {
             return {
               version: '1.0',
-              name: 'Predix UI Seed',
+              name: 'Vehicle Diagnostics',
               session: {}
             }
           }
@@ -199,10 +212,10 @@
       },
 
       _checkForDefaultRoute: function() {
-        // set default route to /dashboards
+        // set default route to /vehicles
         var l = window.location;
         if((l.hash === "#/" || l.hash === "") && l.pathname === "/") {
-          l.hash = "/dashboards";
+          l.hash = "/vehicles";
         }
       }
 
