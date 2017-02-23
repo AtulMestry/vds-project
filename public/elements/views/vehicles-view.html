@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-datatable/paper-datatable.html">
 <link rel="import" href="../../bower_components/paper-datatable/paper-datatable-column.html">
@@ -31,6 +32,9 @@
     paper-toolbar{
       font-size: medium;
     }
+    google-map {
+     height: 420px;
+   }
   </style>
   <template>
     <paper-material elevation="3">
@@ -74,22 +78,22 @@
         <!-- Dashboard Page -->
         <px-sixup id="widgetsx6" widget-header="DASHBOARD" widget-icon="fa-bar-chart">
           <div class=widget-1>
-        <px-kpi id="kpi-1" title="Speed" value="{{vehicle.readings.speed}}" status-icon="tachometer" status-color="green" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-1" title="Speed" value="{{selectedItem.speed}}" status-icon="tachometer" status-color="green" spark-type="line"></px-kpi>
       </div>
       <div class=widget-2>
-        <px-kpi id="kpi-2" title="Fuel Level" value="{{vehicle.readings.fuelLevel}}" status-icon="tint" status-color="orange" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-2" title="Fuel Level" value="{{selectedItem.fuelLevel}}" status-icon="tint" status-color="orange" spark-type="line"></px-kpi>
       </div>
       <div class=widget-3>
-        <px-kpi id="kpi-3" title="Air Intake Temperature" value="{{vehicle.readings.airIntakeTemp}}" uom="" status-icon="fire" status-color="orange" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-3" title="Air Intake Temperature" value="{{selectedItem.airIntakeTemp}}" uom="" status-icon="fire" status-color="orange" spark-type="line"></px-kpi>
       </div>
       <div class=widget-4>
-        <px-kpi id="kpi-4" title="Engine RPM" value="{{vehicle.readings.engineRpm}}" uom="" status-icon="safari" status-color="red" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-4" title="Engine RPM" value="{{selectedItem.engineRpm}}" uom="" status-icon="safari" status-color="red" spark-type="line"></px-kpi>
       </div>
       <div class=widget-5>
-        <px-kpi id="kpi-5" title="FUEL CONSUMPTION RATE" value="{{vehicle.readings.fuelConsumptionRate}}" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-5" title="FUEL CONSUMPTION RATE" value="{{selectedItem.fuelConsumptionRate}}" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
       </div>
       <div class=widget-6>
-        <px-kpi id="kpi-6" title="ENGINE RUNTIME" value="{{vehicle.readings.engineRuntime}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
+        <px-kpi id="kpi-6" title="ENGINE RUNTIME" value="{{selectedItem.engineRuntime}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
       </div>
         </px-sixup>
       </div>
@@ -98,9 +102,9 @@
       <!-- Track Vehicle -->
       <div>
         <px-card header-text="Map" >
-        <google-map disable-default-ui zoom="18" latitude="19.157935" longitude="72.993476">
-         <google-map-marker latitude="19.157935" 
-           longitude="72.993476"
+        <google-map disable-default-ui zoom="18" latitude="{{selectedItem.latitude}}" longitude="{{selectedItem.longitude}}">
+         <google-map-marker latitude="{{selectedItem.latitude}}" 
+           longitude="{{selectedItem.longitude}}"
           title="{{vehicle.readings.vehicleid}}" 
           draggable="true" 
           icon="../car.png">
@@ -125,7 +129,7 @@
         data:{
           type: Object,
           value:[
-          {id:1,vid:'MH04GT7785',vname: 'Skoda Rapid',vlevel:'high'},
+          {id:1,vid:'MH04GT7785',vname: 'Skoda Rapid',vlevel:'high',speed:'25',engineRuntime:"10:31",fuelConsumptionRate:'17.1',fuelLevel:"23%",airIntakeTemp:"45C",engineRpm:8768,latitude:"19.157935",longitude:"72.993476"},
           {id:2,vid:'MH04GT7786',vname: 'Hyundai',vlevel:'normal'},
           {id:3,vid:'MH04GT7787',vname: 'Honda ',vlevel:'high'},
           {id:4,vid:'MH04GT7788',vname: 'Hyundai',vlevel:'normal'},

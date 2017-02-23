@@ -1,19 +1,127 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
-<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../../bower_components/paper-datatable/paper-datatable-column.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/px-widget-cards/px-twoup.html">
+<link rel="import" href="../../bower_components/px-widget-cards/px-fourup.html">
+<link rel="import" href="../../bower_components/px-widget-cards/px-sixup.html">
+<link rel="import" href="../../bower_components/px-theme/px-theme.html">
+<link rel="import" href="../../bower_components/px-kpi/px-kpi.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/google-apis/google-apis.html">
+<link rel="import" href="../../bower_components/google-apis/google-maps-api.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-map/google-map-marker.html">
+
+
 <dom-module id="blankpage-view">
+<style>
+  paper-material{
+    background-color: white;
+    margin: 1px;
+  }
+  px-card{
+    
+  }
+</style>
+<style is="custom-style" include="iron-flex"> 
+  
+</style>
   <template>
-    <px-view-header title="Blank Page" style="display: block; margin-bottom: 6px;"></px-view-header>
-    <blank-card id="myCard">
-      An example of a blank card without any content (except for this brief description).  Replace this with the actual content for your application.
-    </blank-card>
+  <div class="layout horizontal">
+    <paper-material class="flex" elevation="4">
+      <!-- datatable -->
+      <paper-toolbar>
+      <span class="title" style="font-size:medium; font-weight:bold;">Vehicles Analysis</span>
+    </paper-toolbar>
+    <div align="right">
+      <paper-radio-group selected="{{filterValue}}">
+       <paper-radio-button name="all">All</paper-radio-button>
+       <paper-radio-button name="normal">Normal</paper-radio-button>
+       <paper-radio-button name="High" on-change="applyFilter">High</paper-radio-button>
+      </paper-radio-group>
+      </div>
+
+      <paper-datatable data="{{data}}" id="datatable" selectable selected-item="{{selectedItem}}" on-row-tap="rowTapped" id-property="id" filter="{{vFilter}}">
+          <template is="dom-repeat" items={{items}}>
+            <paper-datatable-column 
+            header="{{item.header}}" 
+            property="{{item.property}}" 
+            type="{{item.type}}"
+            tooltip="{{item.tip}}"
+            sortable align="center" 
+            style="min-width: 40px" sortable></paper-datatable-column>
+          </template>
+      </paper-datatable>
+      <!-- end -->
+    </paper-material>
+    <paper-material class="flex" elevation="4">
+      <paper-toolbar>
+    <paper-tabs selected="{{selectedTab}}" fit-container>
+      <paper-tab>Dashboard</paper-tab>
+      <paper-tab>Analytics</paper-tab>
+      <paper-tab>Locate</paper-tab>
+    </paper-tabs>
+    </paper-toolbar>
+
+    <iron-pages selected="{{selectedTab}}">
+      <div>
+        <!-- Dashboard Page -->
+        
+      </div>
+      <!-- Analytics Tab -->
+      <div>Page 2</div>
+      <!-- Track Vehicle -->
+      <div>
+        <px-card header-text="Map" >
+        <google-map disable-default-ui zoom="18" latitude="19.157935" longitude="72.993476">
+         <google-map-marker latitude="19.157935" 
+           longitude="72.993476"
+          title="{{vehicle.readings.vehicleid}}" 
+          draggable="true" 
+          icon="../car.png">
+        </google-map-marker>
+        </google-map>
+       </px-card>
+      </div>
+    </iron-pages>
+    </paper-material>
+  
+  </div>
   </template>
   <script>
     Polymer({
       is: 'blankpage-view',
-      properties: {},
+      properties: {
+        selectedTab:{
+          type:Number,
+          value:0
+        },
+        data:{
+          type: Object,
+          value:[
+          {id:1,vid:'MH04GT7785',vname: 'Skoda Rapid',vlevel:'high'},
+          {id:2,vid:'MH04GT7786',vname: 'Hyundai',vlevel:'normal'},
+          {id:3,vid:'MH04GT7787',vname: 'Honda ',vlevel:'high'},
+          {id:4,vid:'MH04GT7788',vname: 'Hyundai',vlevel:'normal'},
+          {id:5,vid:'MH04GT7789',vname: 'Honda ',vlevel:'high'}
+          ]
+        }
+      },
       ready: function() {
-        console.log('blankpage-view ready()')
+        console.log('vehicles-view ready()');
+        this.items = [
+        {header:'Vehicle ID',property:'vid',type:'String',tip:'Vehicle ID'},
+        {header:'Vehicle Name',property:'vname',type:'String',tip:'Vehicle Name'},
+        {header:'Level',property:'vlevel',type:'String',tip:'Criticality Level'},
+        ]
       }
     });
   </script>

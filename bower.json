@@ -44,7 +44,8 @@
     "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
     "paper-tabs": "PolymerElements/paper-tabs#^1.8.0",
     "px-kpi": "PredixDev/px-kpi#^0.2.5",
-    "google-map": "GoogleWebComponents/google-map#^1.2.0"
+    "google-map": "GoogleWebComponents/google-map#^1.2.0",
+    "paper-header-panel": "PolymerElements/paper-header-panel#^1.1.7"
   },
   "devDependencies": {
     "px-forms-design": "^1.1.1",
