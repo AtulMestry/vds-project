@@ -19,6 +19,7 @@
 <link rel="import" href="../../bower_components/google-apis/google-maps-api.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
 
 
@@ -35,6 +36,11 @@
     google-map {
      height: 420px;
    }
+   paper-toggle-button{
+    align-content: right;
+    margin-top: 5px;
+    margin-bottom: 10px;
+   }
   </style>
   <template>
     <paper-material elevation="3">
@@ -42,17 +48,24 @@
     <px-twoup id="widgetsx2">
     <div class=widget-1>
     <paper-toolbar>
-      <span class="title" style="font-size:medium; font-weight:bold;">Vehicles Analysis</span>
+      <span class="title" style="font-size:medium; font-weight:bold;">Vehicles</span>
     </paper-toolbar>
-    <div align="right">
+    <!-- removed the below code to filter the datatable -->
+    <!-- <div align="right">
       <paper-radio-group selected="{{filterValue}}">
        <paper-radio-button name="all">All</paper-radio-button>
        <paper-radio-button name="normal">Normal</paper-radio-button>
        <paper-radio-button name="High" on-change="applyFilter">High</paper-radio-button>
       </paper-radio-group>
       </div>
-
-      <paper-datatable data="{{data}}" id="datatable" selectable selected-item="{{selectedItem}}" on-row-tap="rowTapped" id-property="id" filter="{{vFilter}}">
+ -->  
+      <!-- toggle button for multiple select -->
+      <div>
+        <paper-toggle-button checked="{{checked}}" on-change="handleToggleChange">Toggle to select multiple vehicles</paper-toggle-button>
+      </div>
+      
+      <paper-datatable data="{{data}}" id="datatable" selectable selected-item="{{selectedItem}}"
+      selected-items="{{selectedItems}}" on-row-tap="rowTapped" id-property="id">
           <template is="dom-repeat" items={{items}}>
             <paper-datatable-column 
             header="{{item.header}}" 
@@ -63,13 +76,15 @@
             style="min-width: 40px" sortable></paper-datatable-column>
           </template>
       </paper-datatable>
+    
     </div>
+    <!-- right side -->
     <div class=widget-2>
     <paper-toolbar>
     <paper-tabs selected="{{selectedTab}}" fit-container>
       <paper-tab>Dashboard</paper-tab>
       <paper-tab>Analytics</paper-tab>
-      <paper-tab>Locate</paper-tab>
+      <paper-tab>Track Vehicles</paper-tab>
     </paper-tabs>
     </paper-toolbar>
 
@@ -101,15 +116,36 @@
       <div>Page 2</div>
       <!-- Track Vehicle -->
       <div>
-        <px-card header-text="Map" >
-        <google-map disable-default-ui zoom="18" latitude="{{selectedItem.latitude}}" longitude="{{selectedItem.longitude}}">
+        <px-card header-text="Track Vehicles" >
+        <template is="dom-if" if="{{!checked}}">
+        <p>Toggle the button to track multiple vehicles</p>
+          <google-map disable-default-ui zoom="18" latitude="{{selectedItem.latitude}}" longitude="{{selectedItem.longitude}}">
          <google-map-marker latitude="{{selectedItem.latitude}}" 
            longitude="{{selectedItem.longitude}}"
-          title="{{vehicle.readings.vehicleid}}" 
+          title="{{selectedItem.vid}}" 
           draggable="true" 
           icon="../car.png">
         </google-map-marker>
         </google-map>
+        </template>
+        <!-- multiple vehicles -->
+        <template is="dom-if" if="{{checked}}">
+        <p>Toggle the button to track a selected vehicle</p>
+        
+        <google-map latitude="19.157935" longitude="72.993476" fit-to-markers disable-default-ui>
+        <template is="dom-repeat" items="{{selectedItems}}" as="item">
+        
+          <google-map-marker latitude="{{item.latitude}}" 
+           longitude="{{item.longitude}}"
+          title="{{item.vid}}" 
+          draggable="true" 
+          icon="../car.png">
+        </google-map-marker> 
+        </template>
+        </google-map>
+          <!-- <google-map disable-default-ui zoom="18" latitude="{{selectedItems.latitude}}" longitude="{{selectedItems.longitude}}">
+        </google-map> -->
+        </template>
        </px-card>
       </div>
     </iron-pages>
@@ -126,23 +162,57 @@
           type:Number,
           value:0
         },
+        checked:{
+          type: Boolean,
+          value:false
+        },
+        selectedItems:{
+          type:Object
+        },
         data:{
           type: Object,
           value:[
           {id:1,vid:'MH04GT7785',vname: 'Skoda Rapid',vlevel:'high',speed:'25',engineRuntime:"10:31",fuelConsumptionRate:'17.1',fuelLevel:"23%",airIntakeTemp:"45C",engineRpm:8768,latitude:"19.157935",longitude:"72.993476"},
-          {id:2,vid:'MH04GT7786',vname: 'Hyundai',vlevel:'normal'},
+          {id:2,vid:'MH04GT7786',vname: 'Hyundai',vlevel:'normal',speed:'20',engineRuntime:"13:31",fuelConsumptionRate:'12.1',fuelLevel:"35%",airIntakeTemp:"40C",engineRpm:7898,latitude:"19.126415",longitude:"73.006854"},
           {id:3,vid:'MH04GT7787',vname: 'Honda ',vlevel:'high'},
           {id:4,vid:'MH04GT7788',vname: 'Hyundai',vlevel:'normal'},
           {id:5,vid:'MH04GT7789',vname: 'Honda ',vlevel:'high'}
           ]
         }
       },
+      handleToggleChange: function(event) {
+        // toggle button change
+        var toggle = this.checked;
+        console.log("toggled and state changed to:" + toggle);
+        if(toggle == true){
+          var datatable = this.$.datatable;
+          datatable.setAttribute("multi-selection","true");
+          console.log("multi-selected");
+          this.selectedTab = 2;
+          console.log(this.selectedTab);
+          
+        }
+        else{
+          var datatable = this.$.datatable;
+          datatable.removeAttribute("multi-selection");
+          console.log("multi-selected removed");
+          this.selectedTab = 0;
+          console.log(this.selectedTab);
+        }
+      },
+      rowTapped:function(event) {
+        // body...
+        console.log("in rowTapped");
+        console.log(this.$.datatable.selectedItems);
+        
+
+      },
       ready: function() {
         console.log('vehicles-view ready()');
         this.items = [
         {header:'Vehicle ID',property:'vid',type:'String',tip:'Vehicle ID'},
         {header:'Vehicle Name',property:'vname',type:'String',tip:'Vehicle Name'},
-        {header:'Level',property:'vlevel',type:'String',tip:'Criticality Level'},
+        {header:'Level',property:'vlevel',type:'String',tip:'Criticality Level'}
         ]
       }
     });
