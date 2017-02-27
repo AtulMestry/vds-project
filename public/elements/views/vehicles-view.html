@@ -181,23 +181,29 @@
 
 				<px-sixup id="widgetsx6" widget-header="VehicleID: {{item.vehicleid}}" widget-icon="fa-bar-chart">
 					<div class=widget-1>
-					<px-kpi id="kpi-1" title="Speed" value="{{item.speed}}" status-icon="tachometer" status-color="green" spark-type="line"></px-kpi>
+					<px-kpi id="kpi-1" title="Speed (kmph)" value="{{item.speed}}" status-icon="tachometer" status-color="green" spark-type="line"></px-kpi>
 					</div>
 					<div class=widget-2>
-					<px-kpi id="kpi-2" title="Fuel Level" value="{{item.fuelLevel}}" status-icon="tint" status-color="orange" spark-type="line"></px-kpi>
+					<px-kpi id="kpi-2" title="Engine Coolant Temp (C)" value="{{item.engineCoolantTemp}}" status-icon="tint" status-color="orange" spark-type="line"></px-kpi>
 					</div>
 					<div class=widget-3>
-					<px-kpi id="kpi-3" title="Air Intake Temperature" value="{{item.airIntakeTemp}}" uom="" status-icon="fire" status-color="orange" spark-type="line"></px-kpi>
+					<px-kpi id="kpi-3" title="Air Intake Temp (C)" value="{{item.airIntakeTemp}}" uom="" status-icon="fire" status-color="orange" spark-type="line"></px-kpi>
 					</div>
 					<div class=widget-4>
 					<px-kpi id="kpi-4" title="Engine RPM" value="{{item.engineRpm}}" uom="" status-icon="safari" status-color="red" spark-type="line"></px-kpi>
 					</div>
 					<div class=widget-5>
-					<px-kpi id="kpi-5" title="FUEL CONSUMPTION RATE" value="10" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
+					<px-kpi id="kpi-5" title="Air Fuel Ratio" value="{{item.airFuelRatio}}" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
 					</div>
 					<div class=widget-6>
-					<px-kpi id="kpi-6" title="ENGINE RUNTIME" value="10" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
+					<px-kpi id="kpi-6" title="ENGINE RUNTIME (s)" value="{{item.engineRuntime}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
 					</div>
+          <div class=widget-5>
+          <px-kpi id="kpi-5" title="Engine Load" value="{{item.engineLoad}}" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
+          </div>
+          <div class=widget-6>
+          <px-kpi id="kpi-6" title="Throttle Position" value="{{item.throttlePos}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
+          </div>
 					</px-sixup>
 				</paper-slide>	
 			</template>
@@ -235,7 +241,8 @@
 					<B>
 						<li>VID: {{item.vehicleid}}</li>
 						<li>Speed: {{item.speed}}</li>
-						<li>FuelLevel: {{item.fuelLevel}}</li>
+						<li>RPM: {{item.engineRpm}}</li>
+            <li>RunTime: {{item.engineRuntime}}</li>
 					</B>
 				</ul>
 			</div>
