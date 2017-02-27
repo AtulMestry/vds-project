@@ -36,7 +36,7 @@
   <style>
     paper-material{
       background-color: white;
-      min-height: 540px;
+      min-height: 768px;
       padding: 2px;
     }
     paper-toolbar{
@@ -167,12 +167,12 @@
     <iron-pages selected="{{selectedTab}}">
       <div>
     <!-- Dashboard Page -->
-		<template is="dom-if" if="{{_isNullDashMapaData(dashMapData)}}">
+		<!-- <template is="dom-if" if="{{_isNullDashMapaData(dashMapData)}}"> -->
 		<l2t-paper-slider auto-progress slide-duration="5"  class="custom" total-slides="{{_computeSlides(dashMapData)}}">
         
 			 <paper-slide id="tempSlide">
-      <!-- <paper-spinner active></paper-spinner>  -->  
-      <px-spinner size="50"></px-spinner>
+      <!-- <paper-spinner active></paper-spinner>  
+      <px-spinner size="50"></px-spinner>-->  
       
       </paper-slide>
             
@@ -198,15 +198,9 @@
 					<div class=widget-6>
 					<px-kpi id="kpi-6" title="ENGINE RUNTIME (s)" value="{{item.engineRuntime}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
 					</div>
-          <div class=widget-5>
-          <px-kpi id="kpi-5" title="Engine Load" value="{{item.engineLoad}}" uom="" status-icon="flask" status-color="orange" spark-type="line"></px-kpi>
-          </div>
-          <div class=widget-6>
-          <px-kpi id="kpi-6" title="Throttle Position" value="{{item.throttlePos}}" uom="" status-icon="clock-o" status-color="green" spark-type="line"></px-kpi>
-          </div>
 					</px-sixup>
 				</paper-slide>	
-			</template>
+			<!-- </template> -->
 		</l2t-paper-slider>
 		</template>	
       </div>
@@ -304,8 +298,26 @@
 			}
 	  },
 	  _computeSlides: function(val){
+		
+		console.log("Total Slides:"+val.length);
+		if(val.length > 0)
+		{
+			var element = this.$.tempSlide;
+			if (typeof(element) != 'undefined' && element != null)
+			{
+				console.log("Element is present... removing it..");
+				element.remove();
+			}
+		}
+		/*else if(val.length == 0){
+			this.$$("#widgetx6").remove();
+			console.log("Creating temp slide.."); 
+		}*/
+		
+		
+		return val.length;
 	  
-		return (val.length + 1);
+		//return (val.length + 1);	
 	  },
 	  _refreshCarousel:function(){
 		this.$.mycar.innerHTML = "<carousel-slide>Hello</carousel-slide>";
